@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>胡桃伤害查询</title>
+</head>
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    .m{
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        background: url(./1.jpeg) no-repeat;
+        background-size:cover;
+    }
+    .h1{
+        width: 800px;
+        height: 160px;
+        position: relative;
+        margin: 0 auto;
+        background: url(./bg8.png) no-repeat;
+    }
+    .h1 div{
+        text-align: center;
+        line-height: 160px;
+        color: white;
+        font-size: 36px;
+    }
+    .h1{
+        position: relative;
+        
+    }
+    .zt{
+        width: 800px;
+        height: 600px;
+        margin: 0 auto;
+        position: relative;
+        background: url(./bg6.png) no-repeat;
+    }
+    .z1{
+        width: 800px;
+        height: 500px;
+        position: relative;
+        margin: 0 auto;
+    }
+    .z2{
+        margin-top: 100px;
+        width: 800px;
+        height: 100px;
+        text-align: center;
+        position: relative;
+        margin: 0 auto;
+    }
+    .fr{
+        width: 800px;
+        height: 160px;
+        margin: 0 auto;
+        position: relative;
+        background: url(./bg8.png) no-repeat;
+    }
+    .fr div{
+        width: 800px;
+        height: 100%;
+        position: relative;
+        margin: 0 auto;
+        text-align: center;
+        line-height: 160px;
+        color: white;
+        font-size: 36px;
+    }
+  
+    .zt div form{
+        text-align: center;
+    }
+
+    .zt div form input{
+        margin-top: 20px;
+        border-radius: 5px;
+        
+    }
+    .zt div form button{
+        width: 100px;
+        height: 40px;
+        border-radius: 5px;
+        margin-top: 10px;
+    }
+    .z2 div{
+        font-size: 20px;
+    }
+</style>
+<body>
+    <div class="m">
+        <header>
+            <div class="h1">
+                <div>
+                    胡桃伤害预测
+                </div>
+            </div>
+        </header>
+        <main>
+            <div class="zt">
+                <div class="z1">
+                    <form>
+                        <br>
+                        <h3>胡桃满血面板</h3>
+                        <br>
+                        <hr size="1px">
+                        白值攻击力： <input type="text" name="watk" id="watk"><br>
+                        绿值攻击力： <input type="text" name="gatk" id="gatk"><br>
+                        生命值：<input type="text" name="hp" id="hp"><br>
+                        精通：<input type="text" name="jt" id="jt"> <br>
+                        爆伤：<input type="text" name="bs" id="bs"> %<br>
+                        武器选择：<br>
+                        <input type="radio" name="wq" value="hm1">护摩精1
+                        <input type="radio" name="wq" value="hm2">护摩精2
+                        <input type="radio" name="wq" value="hm3">护摩精3
+                        <input type="radio" name="wq" value="hm4">护摩精4
+                        <input type="radio" name="wq" value="hm5">护摩精5
+                        <br>
+                        <input type="radio" name="wq" value="xl1">匣里精1
+                        <input type="radio" name="wq" value="xl2">匣里精2
+                        <input type="radio" name="wq" value="xl3">匣里精3
+                        <input type="radio" name="wq" value="xl4">匣里精4
+                        <input type="radio" name="wq" value="xl5">匣里精5
+                        <br>
+                        圣遗物选择：
+                        <input type="radio" name="syw" value="mn">魔女
+                        <input type="radio" name="syw" value="zy">追忆
+                        <input type="radio" name="syw" value="sj">2+2(魔女+乐团)
+                        <br>
+                        <input type="button" value="查询" onclick="qz()">
+                    </form>
+                    <br>
+                    <hr size="1px">
+                    
+                    <div class="z2">
+                    <br>
+
+                        <h3>重击预测伤害</h3>
+                        <div id="jg">
+                            
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </main>
+        <footer>
+            <div class="fr">
+                <div> 
+                    数据仅供参考！！
+                </div>
+            </div>
+        </footer>
+    </div>
+</body>
+<script type="text/javascript">
+    function qz(){
+        var watk=document.getElementById("watk").value;
+        var gatk=document.getElementById("gatk").value;
+        var hp=document.getElementById("hp").value;
+        var jt=document.getElementById("jt").value;
+        var bs=document.getElementById("bs").value;
+        var obj = document.getElementsByName("wq");
+        for(var i = 0; i < obj.length; i ++) {
+            if (obj[i].checked) {
+                var wq = obj[i].value;
+            }
+        }
+        var obj1 = document.getElementsByName("syw");
+        for(var i = 0; i < obj1.length; i ++) {
+            if (obj1[i].checked) {
+                var syw = obj1[i].value;
+            }
+        }
+
+        //获取攻击力
+        var atk=getAtk(watk,gatk,hp,wq);
+        //获取增伤乘区
+        var zscq=getZs(wq,syw);
+        //获取反应加成
+        var fy=getFy(syw,jt);
+        //爆伤
+        var bsz= bs*0.01+1;
+        //重击倍率
+        var zj=2.426;
+        console.log(atk);
+        console.log(zscq);
+        console.log(fy);
+        console.log(bsz);
+
+        var zzsh=atk*bsz*zj*zscq*1.5*fy*0.9*0.5;
+
+        document.getElementById("jg").innerHTML=zzsh;
+
+    }
+    function getFy(syw,jt){
+        if(syw=="mn"){
+            var fy=(jt*2.78)/(jt*1+1400*1)+0.15+1;
+        }else{
+            var fy=(jt*2.78)/(jt*1+1400*1)+1;
+        }
+        return fy;
+    }
+
+
+    function getZs(wq,syw){
+        var zs;
+        if(wq=="hm1"||wq=="hm2"||wq=="hm3"||wq=="hm4"||wq=="hm5"){
+            
+            if(syw=="mn"){
+                zs=2.021;
+            }
+            if(syw=="zy"){
+                zs=2.296;
+            }
+            if(syw=="sj"){
+                zs=1.946;
+            }
+        }
+        if(wq=="xl1"){
+            if(syw=="mn"){
+                zs=2.221;
+            }
+            if(syw=="zy"){
+                zs=2.496;
+            }
+            if(syw=="sj"){
+                zs=1.946;
+            }
+        }
+        if(wq=="xl2"){
+            if(syw=="mn"){
+                 zs=2.261;
+            }
+            if(syw=="zy"){
+                 zs=2.536;
+            }
+            if(syw=="sj"){
+                 zs=1.946;
+            }
+        }
+        if(wq=="xl3"){
+            if(syw=="mn"){
+                 zs=2.301;
+            }
+            if(syw=="zy"){
+                 zs=2.576;
+            }
+            if(syw=="sj"){
+                 zs=1.946;
+            }
+        }
+        if(wq=="xl4"){
+            if(syw=="mn"){
+                 zs=2.341;
+            }
+            if(syw=="zy"){
+                 zs=2.616;
+            }
+            if(syw=="sj"){
+                 zs=1.946;
+            }
+        }
+        if(wq=="xl5"){
+            if(syw=="mn"){
+                 zs=2.381;
+            }
+            if(syw=="zy"){
+                 zs=2.656;
+            }
+            if(syw=="sj"){
+                 zs=1.946;
+            }
+        }
+        return zs;
+
+    }
+
+    function getAtk(watk,gatk,hp,wq){
+        var atk=0;
+        if(wq=="xl1"||wq=="xl2"||wq=="xl3"||wq=="xl4"||wq=="xl5"){
+            var atk=watk*1+gatk*1+hp*0.0626;
+        }
+        if(wq=="hm1"){
+            var atk=watk*1+gatk*1+hp*(0.0626+0.01);
+        }
+        if(wq=="hm2"){
+            var atk=watk*1+gatk*1+hp*(0.0626+0.012);
+        }
+        if(wq=="hm3"){
+            var atk=watk*1+gatk*1+hp*(0.0626+0.014);
+        }
+        if(wq=="hm4"){
+            var atk=watk*1+gatk*1+hp*(0.0626+0.016);
+        }
+        if(wq=="hm5"){
+            var atk=watk*1+gatk*1+hp*(0.0626+0.018);
+        }
+        return atk;
+    }
+    
+</script>
+</html>
